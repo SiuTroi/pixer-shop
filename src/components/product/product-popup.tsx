@@ -141,7 +141,7 @@ export default function ProductPopupDetails() {
               </a>
             )} 
               <a
-                href={routes.shopUrl(shop?.slug)}
+                href={routes.productUrl(slug)}
                 rel="noreferrer"
                 target="_blank"
                 className="transition-fill-colors flex min-h-[46px] w-full flex-1 items-center justify-center gap-2 rounded border border-light-500 bg-transparent py-3 px-4 font-semibold text-dark duration-200 hover:bg-light-400 hover:text-brand focus:bg-light-500 dark:border-dark-600 dark:text-light dark:hover:bg-dark-600 dark:focus:bg-dark-600 sm:h-12 md:px-5"
