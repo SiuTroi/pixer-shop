@@ -30,7 +30,7 @@ export default function ProductDetailsPaper({ product, className }: Props) {
     price,
     sale_price,
   } = product;
-  const isFreeItem = isFree(sale_price ?? price);
+  const isFreeItem = isFree(sale_price ?? Number(price));
   const { t } = useTranslation('common');
   return (
     <div
@@ -68,7 +68,7 @@ export default function ProductDetailsPaper({ product, className }: Props) {
                 {shop?.name}
               </AnchorLink>
             </h2>
-          </div> 
+          </div>
         </div>
       </div>
       <div className="flex flex-col-reverse items-center py-3.5 xs:flex-row xs:gap-2.5 sm:py-4 md:gap-3.5 lg:w-[480px] lg:gap-4 lg:py-2 2xl:w-2/5 3xl:w-[480px]">
@@ -77,15 +77,14 @@ export default function ProductDetailsPaper({ product, className }: Props) {
             className="mt-2.5 w-full flex-1 xs:mt-0 xs:w-auto"
             item={product}
           />
-        ) : ( 
-        <FreeDownloadButton
-          productId={id}
-          productSlug={preview_url}
-          productName={name}
-          className="mt-2.5 w-full flex-1 xs:mt-0"
-        />
-
-        )} 
+        ) : (
+          <FreeDownloadButton
+            productId={id}
+            productSlug={preview_url}
+            productName={name}
+            className="mt-2.5 w-full flex-1 xs:mt-0"
+          />
+        )}
       </div>
     </div>
   );

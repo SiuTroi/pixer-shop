@@ -173,10 +173,10 @@ const ProductPage: NextPageWithLayout<
                 ratings={ratings}
               />
               <ProductReviews productId={id} />
-              <ProductQuestions
+              {/* <ProductQuestions
                 productId={product?.id}
                 shopId={product?.shop?.id}
-              />
+              /> */}
             </div>
           </div>
 

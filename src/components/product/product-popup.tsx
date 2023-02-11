@@ -48,7 +48,7 @@ export default function ProductPopupDetails() {
     price,
     sale_price,
   } = product ?? {};
-  const isFreeItem = isFree(sale_price ?? price);
+  const isFreeItem = isFree(sale_price ?? Number(price));
   const previews = getPreviews(gallery, image);
   return (
     <div className="flex max-w-full flex-col bg-light text-left dark:bg-dark-250 xs:max-w-[430px] sm:max-w-[550px] md:max-w-[600px] lg:max-w-[960px] xl:max-w-[1200px] 2xl:max-w-[1266px] 3xl:max-w-[1460px]">
@@ -132,22 +132,21 @@ export default function ProductPopupDetails() {
                 className="mt-2.5 w-full flex-1 xs:mt-0"
               />
             ) : (
-              <a 
-                href={preview_url}
-                title={name}
+              <FreeDownloadButton
+                productId={id}
+                productSlug={preview_url}
+                productName={name}
                 className="mt-2.5 w-full flex-1 xs:mt-0"
-              >
-                {t('text-download')}
-              </a>
-            )} 
-              <a
-                href={routes.shopUrl(shop?.slug)}
-                rel="noreferrer"
-                target="_blank"
-                className="transition-fill-colors flex min-h-[46px] w-full flex-1 items-center justify-center gap-2 rounded border border-light-500 bg-transparent py-3 px-4 font-semibold text-dark duration-200 hover:bg-light-400 hover:text-brand focus:bg-light-500 dark:border-dark-600 dark:text-light dark:hover:bg-dark-600 dark:focus:bg-dark-600 sm:h-12 md:px-5"
-              >
-                {t('product-detail')}
-              </a> 
+              />
+            )}
+            <a
+              href={routes.productUrl(slug)}
+              rel="noreferrer"
+              target="_blank"
+              className="transition-fill-colors flex min-h-[46px] w-full flex-1 items-center justify-center gap-2 rounded border border-light-500 bg-transparent py-3 px-4 font-semibold text-dark duration-200 hover:bg-light-400 hover:text-brand focus:bg-light-500 dark:border-dark-600 dark:text-light dark:hover:bg-dark-600 dark:focus:bg-dark-600 sm:h-12 md:px-5"
+            >
+              {t('product-detail')}
+            </a>
           </div>
         </div>
       </div>

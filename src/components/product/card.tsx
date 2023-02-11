@@ -20,7 +20,9 @@ export default function Card({ product }: { product: Product }) {
   const { openModal } = useModalAction();
   const { isGridCompact } = useGridSwitcher();
   const { price, basePrice } = usePrice({
-    amount: product.sale_price ? product.sale_price : product.price,
+    amount: Number(product.sale_price)
+      ? Number(product.sale_price)
+      : Number(product.price),
     baseAmount: product.price,
   });
   const goToDetailsPage = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -28,7 +30,8 @@ export default function Card({ product }: { product: Product }) {
     Router.push(routes.productUrl(slug));
   };
   const { t } = useTranslation('common');
-  const isFreeItem = isFree(product?.sale_price ?? product?.price);
+  const isFreeItem = isFree(product.sale_price ?? Number(product.price));
+
   return (
     <motion.div variants={fadeInBottomWithScaleX()} title={name}>
       <div className="group relative flex aspect-[3/2] w-full justify-center overflow-hidden">
@@ -111,7 +114,7 @@ export default function Card({ product }: { product: Product }) {
 
         <div className="flex flex-shrink-0 flex-col items-end pl-2.5">
           <span className="rounded-2xl bg-light-500 px-1.5 py-0.5 text-13px font-semibold uppercase text-brand dark:bg-dark-300 dark:text-brand-dark">
-            {isFreeItem ? t('text-free') : price}
+            {isFreeItem ? t('free') : price}
           </span>
           {!isFreeItem && basePrice && (
             <del className="px-1 text-13px font-medium text-dark-900 dark:text-dark-700">

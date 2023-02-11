@@ -154,7 +154,7 @@ export default function Header({
         {asPath !== routes.checkout && (
           <CartButton className="hidden sm:flex" />
         )}
-        {isMultiLangEnable ? (
+        {/* {isMultiLangEnable ? (
           <div className="ltr:ml-auto rtl:mr-auto">
             <LanguageSwitcher />
           </div>
@@ -168,7 +168,7 @@ export default function Header({
           className="focus:ring-accent-700 hidden h-9 shrink-0 items-center justify-center rounded border border-transparent bg-brand px-3 py-0 text-sm font-semibold leading-none text-light outline-none transition duration-300 ease-in-out hover:bg-brand-dark focus:shadow focus:outline-none focus:ring-1 sm:inline-flex"
         >
           {t('text-become-seller')}
-        </a>
+        </a> */}
         <LoginMenu />
       </div>
     </header>

@@ -69,7 +69,7 @@ export function Sidebar({
         className
       )}
     >
-      <Scrollbar className="relative h-full w-full">
+      <Scrollbar className="relative h-full w-full flex-1">
         <div className="flex h-full w-full flex-col">
           <nav className="flex flex-col">
             <NavLink

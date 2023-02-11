@@ -6,6 +6,10 @@ import { useState } from 'react';
 import { API_ENDPOINTS } from '@/data/client/endpoints';
 import { useTranslation } from 'next-i18next';
 import { useCart } from '@/components/cart/lib/cart.context';
+import { useMe } from '@/data/user';
+import ReactDOM from 'react-dom';
+import LoginUserForm from '../auth/login-form';
+import { useModalAction } from '../modal-views/context';
 
 interface Props {
   productId: string;
@@ -20,6 +24,8 @@ export default function FreeDownloadButton({
   productName,
   className,
 }: Props) {
+  const { me, isAuthorized } = useMe();
+  const { openModal } = useModalAction();
   const { t } = useTranslation('common');
   let [success, setSuccess] = useState(false);
   const queryClient = useQueryClient();
@@ -27,10 +33,14 @@ export default function FreeDownloadButton({
   const { mutate, isLoading } = useMutation(client.products.download, {
     onSuccess: (data) => {
       function download(fileUrl: string, fileName: string) {
-        var a = document.createElement('a');
-        a.href = fileUrl;
-        a.setAttribute('download', fileName);
-        a.click();
+        if (isAuthorized) {
+          var a = document.createElement('a');
+          a.href = fileUrl;
+          a.setAttribute('download', fileName);
+          a.click();
+        } else {
+          openModal('LOGIN_VIEW');
+        }
       }
       download(data, productName);
       setSuccess(true);
@@ -43,44 +53,46 @@ export default function FreeDownloadButton({
     },
   });
   return (
-    <Button
-      onClick={() => mutate({ product_id: productId })}
-      isLoading={isLoading}
-      className={cn(
-        'relative',
-        success
-          ? 'is-carting pointer-events-none cursor-not-allowed'
-          : 'pointer-events-auto cursor-pointer',
-        className
-      )}
-      disabled={isInStock(productId)}
-    >
-      {t('text-download')}
-      {/* <DownloadIcon className="h-auto w-4" /> */}
-      <svg
-        viewBox="0 0 37 37"
-        xmlns="http://www.w3.org/2000/svg"
-        className="absolute top-auto bottom-auto right-3 h-auto w-5 xs:right-4 xs:w-6"
+    <>
+      <Button
+        onClick={() => mutate({ product_id: productId })}
+        isLoading={isLoading}
+        className={cn(
+          'relative',
+          success
+            ? 'is-carting pointer-events-none cursor-not-allowed'
+            : 'pointer-events-auto cursor-pointer',
+          className
+        )}
+        disabled={isInStock(productId)}
       >
-        <path
-          fill="none"
-          stroke="currentColor"
-          strokeLinejoin="round"
-          strokeMiterlimit="10"
-          strokeWidth="2.3"
-          d="M30.5 6.5h0c6.6 6.6 6.6 17.4 0 24h0c-6.6 6.6-17.4 6.6-24 0h0c-6.6-6.6-6.6-17.4 0-24h0c6.6-6.7 17.4-6.7 24 0z"
-          className="circle path"
-        />
-        <path
-          fill="none"
-          stroke="currentColor"
-          strokeLinejoin="round"
-          strokeMiterlimit="10"
-          strokeWidth="2.3"
-          d="M11.6 20L15.9 24.2 26.4 13.8"
-          className="tick path"
-        />
-      </svg>
-    </Button>
+        {t('text-download')}
+        {/* <DownloadIcon className="h-auto w-4" /> */}
+        <svg
+          viewBox="0 0 37 37"
+          xmlns="http://www.w3.org/2000/svg"
+          className="absolute top-auto bottom-auto right-3 h-auto w-5 xs:right-4 xs:w-6"
+        >
+          <path
+            fill="none"
+            stroke="currentColor"
+            strokeLinejoin="round"
+            strokeMiterlimit="10"
+            strokeWidth="2.3"
+            d="M30.5 6.5h0c6.6 6.6 6.6 17.4 0 24h0c-6.6 6.6-17.4 6.6-24 0h0c-6.6-6.6-6.6-17.4 0-24h0c6.6-6.7 17.4-6.7 24 0z"
+            className="circle path"
+          />
+          <path
+            fill="none"
+            stroke="currentColor"
+            strokeLinejoin="round"
+            strokeMiterlimit="10"
+            strokeWidth="2.3"
+            d="M11.6 20L15.9 24.2 26.4 13.8"
+            className="tick path"
+          />
+        </svg>
+      </Button>
+    </>
   );
 }
