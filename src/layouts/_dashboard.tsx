@@ -6,13 +6,16 @@ import { Sidebar as MainSidebar } from '@/layouts/_layout-sidebar';
 import { fadeInBottom } from '@/lib/framer-motion/fade-in-bottom';
 import { useBreakpoint } from '@/lib/hooks/use-breakpoint';
 import { useIsMounted } from '@/lib/hooks/use-is-mounted';
+import React from 'react';
 const BottomNavigation = dynamic(() => import('@/layouts/_bottom-navigation'));
 
 export default function DashboardLayout({
   children,
 }: React.PropsWithChildren<{}>) {
+  const [isCollapse, setIsCollapse] = React.useState<boolean>(true);
   const breakpoint = useBreakpoint();
   const isMounted = useIsMounted();
+
   return (
     <motion.div
       initial="exit"
@@ -20,10 +23,17 @@ export default function DashboardLayout({
       exit="exit"
       className="flex min-h-full flex-col bg-light dark:bg-dark-100 lg:min-h-[auto] lg:bg-light-300"
     >
-      <Header />
+      <Header
+        showHamburger={true}
+        isCollapse={isCollapse}
+        onClickHamburger={() => setIsCollapse(!isCollapse)}
+      />
       <main className="flex flex-col sm:flex-row">
         <div className="hidden sm:block">
-          <MainSidebar className="relative flex h-[calc(100vh-70px)]" />
+          <MainSidebar
+            isCollapse={isCollapse}
+            className="relative flex h-[calc(100vh-70px)]"
+          />
         </div>
         <div className="flex-1">
           <motion.div
